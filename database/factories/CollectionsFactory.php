@@ -90,7 +90,7 @@ $factory->define(App\Collections\Theme::class, function (Faker\Generator $faker)
         'citi_id' => $faker->unique()->randomNumber(6),
         'title' => ucwords($faker->words(3, true)),
         'lake_guid' => $lake_id,
-        'lake_uri' => env('LAKE_URL, 'https://localhost') .'/' .substr($lake_id, 0, 2) .'/' .substr($lake_id, 2, 2) .'/' .substr($lake_id, 4, 2) .'/' .substr($lake_id, 6, 2) .'/' .$lake_id,
+        'lake_uri' => env('LAKE_URL', 'https://localhost') .'/' .substr($lake_id, 0, 2) .'/' .substr($lake_id, 2, 2) .'/' .substr($lake_id, 4, 2) .'/' .substr($lake_id, 6, 2) .'/' .$lake_id,
         'description' => $faker->paragraph(3),
         'is_in_navigation' => ucfirst($faker->boolean),
         'sort' => $faker->randomDigit * 10,
