@@ -21,7 +21,7 @@ class ArtworkTransformer extends TransformerAbstract
      *
      * @var array
      */
-    protected $defaultIncludes = []; // 'creator' or 'department'
+    protected $defaultIncludes = ['dates']; // 'creator' or 'department'
 
     /**
      * Turn this item object into a generic array.
@@ -64,4 +64,16 @@ class ArtworkTransformer extends TransformerAbstract
     {
         return $this->item(Artist::where('lake_uid', '=', $artwork->creator_lake_uid)->first(), new ArtistTransformer);
     }
+
+    /**
+     * Include dates.
+     *
+     * @param  \App\Collections\Artwork  $artwork
+     * @return League\Fractal\ItemResource
+     */
+    public function includeDates(Artwork $artwork)
+    {
+        return $this->collection($artwork->dates()->getResults(), new ArtworkDateTransformer);
+    }
+
 }
