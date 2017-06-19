@@ -8,33 +8,92 @@ trait Factory
     
     protected $times = 1;
     protected $ids = [];
-
+    protected $attachTypes = [];
+    protected $attachTimes = 1;
+    protected $attachRelation = '';
+    
     protected function times($count)
     {
         $this->times = $count;
         return $this;
     }
     
+    protected function attach($types, $times = 1, $relation = '') {
+        
+        if (is_array($types))
+        {
+            $this->attachTypes = $types;
+        }
+        else
+        {
+            $this->attachTypes = [$types];
+        }
+        $this->attachTimes = $times;
+        $this->attachRelation = $relation;
+        return $this;
 
+    }
+    
     protected function make($type, $fields = [])
     {
 
-        while ($this->times--) {
-            $stub = array_merge($this->_getStub(), $fields);
+        $model;
+        while ($this->times-- > 0) {
 
-            if (array_key_exists('citi_id', $stub)) {
-                $this->ids[] = $stub['citi_id'];
+            $model = factory($type)->create($fields);
+
+            if ($this->attachTypes)
+            {
+
+                while ($this->attachTimes-- > 0)
+                {
+                    
+                    foreach ($this->attachTypes as $attachType)
+                    {
+                        $class = $this->classFrom($attachType);
+
+                        $relation = $this->attachRelation ? $this->attachRelation : lcfirst(str_plural($class));
+
+                        $add = 'save';
+                        
+                        if ($model->$relation() instanceof \Illuminate\Database\Eloquent\Relations\BelongsTo)
+                        {
+
+                            $add = 'associate';
+
+                        }
+                            
+                        $model->$relation()->$add(factory($attachType)->create());
+                        
+                    }
+
+                }
+
             }
+            $this->ids[] = $model->getAttributeValue($model->getKeyName());
             
-            $type::create($stub);
         }
+        $this->reset();
+
+        return last($this->ids);
     }
 
-    protected function _getStub()
+    protected function classFrom($type)
     {
 
-        throw new BadMethodCallException('Create your own _getStub method to declare your fields.');
+        $path = explode('\\', $type);
+        return array_pop($path);
+
     }
     
+    protected function reset()
+    {
+
+        $this->times = 1;
+        $this->attachTypes = [];
+        $this->attachTimes = 1;
+        $this->attachRelation = '';
+        
+    }    
 
 }

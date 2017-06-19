@@ -4,7 +4,7 @@ namespace App\Collections;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Department extends Model
+class Agent extends Model
 {
 
     public $incrementing = false;
@@ -17,5 +17,17 @@ class Department extends Model
      * @var array
      */
     protected $fillable = ['citi_id', 'title', 'lake_guid', 'lake_uri'];
+
+    public function artworks()
+    {
+        return $this->hasMany('App\Collections\Artwork');
+    }
+
+    public function agentType()
+    {
+
+        return $this->belongsTo('App\Collections\AgentType');
+
+    }
 
 }

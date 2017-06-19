@@ -4,7 +4,7 @@ namespace App\Collections;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Text extends Model
+class Link extends Model
 {
 
     public $incrementing = false;
@@ -18,7 +18,7 @@ class Text extends Model
      * @var array
      */
     protected $fillable = ['title', 'lake_guid', 'lake_uri'];
-
+    
     public function artist()
     {
 
@@ -32,6 +32,5 @@ class Text extends Model
         return $this->belongsToMany('App\Collections\Category');
 
     }
-
 
 }

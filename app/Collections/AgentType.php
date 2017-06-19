@@ -4,7 +4,7 @@ namespace App\Collections;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Department extends Model
+class AgentType extends Model
 {
 
     public $incrementing = false;

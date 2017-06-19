@@ -7,7 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class Video extends Model
 {
 
-    protected $primaryKey = 'citi_id';
+    public $incrementing = false;
+    protected $primaryKey = 'lake_guid';
+    protected $keyType = 'string';
     protected $dates = ['api_created_at', 'api_modified_at', 'api_indexed_at'];
 
     /**
@@ -15,11 +17,20 @@ class Video extends Model
      *
      * @var array
      */
-    protected $fillable = ['citi_id', 'title', 'lake_guid', 'lake_uri'];
+    protected $fillable = ['title', 'lake_guid', 'lake_uri'];
 
-    public function artists()
+    public function Artist()
     {
-        return $this->hasMany('App\Collections\Artist');
+
+        return $this->belongsTo('App\Collections\Artist');
+
+    }
+
+    public function categories()
+    {
+
+        return $this->belongsToMany('App\Collections\Category');
+
     }
 
 }

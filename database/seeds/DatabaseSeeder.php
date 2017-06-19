@@ -2,12 +2,15 @@
 
 use Illuminate\Database\Seeder;
 
-use App\Collections\Artist;
+use App\Collections\AgentType;
+use App\Collections\Agent;
 use App\Collections\Department;
 use App\Collections\Artwork;
 use App\Collections\Gallery;
 use App\Collections\Theme;
+use App\Collections\Link;
 use App\Collections\Video;
+use App\Collections\ObjectType;
 use App\Collections\Sound;
 use App\Collections\Text;
 use App\Collections\Image;
@@ -26,19 +29,28 @@ class DatabaseSeeder extends Seeder
 
         $this->_cleanDatabase();
         
-        // Models referenced in the Artwork seeder
-        $this->call(ArtistsTableSeeder::class);
+        $this->call(AgentTypesTableSeeder::class);
+        $this->call(AgentsTableSeeder::class);
         $this->call(DepartmentsTableSeeder::class);
-
-        $this->call(ArtworksTableSeeder::class);
-        $this->call(GalleriesTableSeeder::class);
-        $this->call(ThemesTableSeeder::class);
-        $this->call(VideosTableSeeder::class);
-        $this->call(SoundsTableSeeder::class);
-        $this->call(TextsTableSeeder::class);
-        $this->call(ImagesTableSeeder::class);
+        $this->call(ObjectTypesTableSeeder::class);
         $this->call(CategoriesTableSeeder::class);
+        $this->call(GalleriesTableSeeder::class);
+        $this->call(ArtworksTableSeeder::class);
+        $this->call(ArtistArtworksTableSeeder::class);
         $this->call(ArtworkCategoriesTableSeeder::class);
+        $this->call(ArtworkGalleriesTableSeeder::class);
+        $this->call(ArtworkDatesTableSeeder::class);
+        $this->call(ArtworkCataloguesTableSeeder::class);
+        $this->call(ThemesTableSeeder::class);
+        $this->call(LinksTableSeeder::class);
+        $this->call(LinkCategoriesTableSeeder::class);
+        $this->call(SoundsTableSeeder::class);
+        $this->call(SoundCategoriesTableSeeder::class);
+        $this->call(VideosTableSeeder::class);
+        $this->call(VideoCategoriesTableSeeder::class);
+        $this->call(TextsTableSeeder::class);
+        $this->call(TextCategoriesTableSeeder::class);
+        $this->call(ImagesTableSeeder::class);
 
     }
 
@@ -46,17 +58,19 @@ class DatabaseSeeder extends Seeder
 
         DB::statement('SET FOREIGN_KEY_CHECKS=0');
 
-        Category::truncate();
         Image::truncate();
         Text::truncate();
-        Sound::truncate();
         Video::truncate();
+        Sound::truncate();
+        Link::truncate();
         Theme::truncate();
-        Gallery::truncate();
         Artwork::truncate();
-        
+        Gallery::truncate();
+        Category::truncate();        
+        ObjectType::truncate();        
         Department::truncate();
-        Artist::truncate();
+        Agent::truncate();
+        AgentType::truncate();
         
         DB::statement('SET FOREIGN_KEY_CHECKS=1');
 

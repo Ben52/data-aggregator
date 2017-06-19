@@ -4,21 +4,39 @@ namespace App\Collections;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Artist extends Model
+class Artist extends Agent
 {
 
-    protected $primaryKey = 'citi_id';
-    protected $dates = ['api_created_at', 'api_modified_at', 'api_indexed_at'];
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'agents';
+
+    public function newQuery($excludeDeleted = true)
+    {
+
+        return parent::newQuery()->whereHas('agentType', function ($query) { $query->where('title', '=', 'Artist'); });
+
+    }
+    
+    public function getAgentTypeAttribute()
+    {
+
+        App\Collections\AgentType::where('title', 'Artist')->first();
+        
+    }
 
     /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
+     * The artworks that belong to the category.
      */
-    protected $fillable = ['citi_id', 'title', 'lake_guid', 'lake_uri'];
-
     public function artworks()
     {
-        return $this->hasMany('App\Collections\Artwork');
+
+        return $this->belongsToMany('App\Collection\Artwork');
+
     }
+
+
 }

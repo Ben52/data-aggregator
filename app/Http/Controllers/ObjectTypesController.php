@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Collections\Department;
+use App\Collections\ObjectType;
 use App\Collections\Artwork;
 use Illuminate\Http\Request;
 
-class DepartmentsController extends ApiController
+class ObjectTypesController extends ApiController
 {
     /**
      * Display a listing of the resource.
@@ -30,38 +30,38 @@ class DepartmentsController extends ApiController
 
         if ($artworkId)
         {
-            return response()->item(Artwork::findOrFail($artworkId)->department, new \App\Http\Transformers\DepartmentTransformer);
+            return response()->item(Artwork::findOrFail($artworkId)->objectType, new \App\Http\Transformers\ObjectTypeTransformer);
         }
         else
         {
-            $all = Department::paginate();
-            return response()->collection($all, new \App\Http\Transformers\DepartmentTransformer);
+            $all = ObjectType::paginate();
+            return response()->collection($all, new \App\Http\Transformers\ObjectTypeTransformer);
         }
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Collections\Department  $department
+     * @param  \App\Collections\ObjectType  $objectType
      * @return \Illuminate\Http\Response
      */
-    public function show($departmentId)
+    public function show($objectTypeId)
     {
         try
         {
-            if (intval($departmentId) <= 0)
+            if (intval($objectTypeId) <= 0)
             {
-                return $this->respondInvalidSyntax('Invalid identifier', "The department identifier should be a number. Please ensure you're passing the correct source identifier and try again.");
+                return $this->respondInvalidSyntax('Invalid identifier', "The objectType identifier should be a number. Please ensure you're passing the correct source identifier and try again.");
             }
 
-            $item = Department::find($departmentId);
+            $item = ObjectType::find($objectTypeId);
 
             if (!$item)
             {
-                return $this->respondNotFound('Department not found', "The department you requested cannot be found. Please ensure you're passing the source identifier and try again.");
+                return $this->respondNotFound('ObjectType not found', "The objectType you requested cannot be found. Please ensure you're passing the source identifier and try again.");
             }
 
-            return response()->item($item, new \App\Http\Transformers\DepartmentTransformer);
+            return response()->item($item, new \App\Http\Transformers\ObjectTypeTransformer);
         }
         catch(\Exception $e)
         {
@@ -80,8 +80,8 @@ class DepartmentsController extends ApiController
             return $this->respondForbidden('Invalid number of ids', 'You have requested too many ids. Please send a smaller amount.');
             
         }
-        $all = Department::find($ids);
-        return response()->collection($all, new \App\Http\Transformers\DepartmentTransformer);
+        $all = ObjectType::find($ids);
+        return response()->collection($all, new \App\Http\Transformers\ObjectTypeTransformer);
         
     }
 
