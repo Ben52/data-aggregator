@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class ArtworkGalleriesTableSeeder extends Seeder
+class ArtworkTermsTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -12,13 +12,20 @@ class ArtworkGalleriesTableSeeder extends Seeder
     public function run()
     {
 
+        $faker = Faker\Factory::create();
+
         $artworks = App\Collections\Artwork::all()->all();
-        $galleryIds = App\Collections\Gallery::all()->pluck('citi_id')->all();
 
         foreach ($artworks as $artwork) {
 
             for ($i = 0; $i < rand(2,8); $i++) {
-                $artwork->galleries()->attach($galleryIds[array_rand($galleryIds)]);
+                
+                $term = factory(App\Collections\ArtworkTerm::class)->make([
+                    'artwork_citi_id' => $artwork->getAttribute($artwork->getKeyName()),
+                ]);
+
+                $artwork->terms()->save($term);
+
             }
 
         }

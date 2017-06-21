@@ -8,13 +8,9 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 use App\Collections\Gallery;
 
-use Tests\Helpers\Factory;
-
 class GalleryTest extends ApiTestCase
 {
 
-    use Factory;
-    
     /** @test */
     public function it_fetches_all_galleries()
     {
@@ -70,25 +66,6 @@ class GalleryTest extends ApiTestCase
 
         $this->it_405s(Gallery::class, 'galleries');
         
-    }
-
-
-    /** @test */
-    public function it_fetches_location_types_for_a_gallery()
-    {
-
-        $this->attach(LocationType::class, 4)->make(Gallery::class);
-
-        $response = $this->getJson('api/v1/galleries/' .$this->ids[0] .'/location-types');
-        $response->assertSuccessful();
-
-        $types = $response->json()['data'];
-        $this->assertCount(4, $types);
-        
-        foreach ($types as $type)
-        {
-            $this->assertArrayHasKeys($type, ['id', 'title']);
-        }
     }
 
 }

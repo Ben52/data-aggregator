@@ -13,12 +13,21 @@ class ArtistArtworksTableSeeder extends Seeder
     {
 
         $artworks = App\Collections\Artwork::all()->all();
-        $artistIds = App\Collections\Artist::all()->pluck('citi_id')->all();
+        $artistsIds = App\Collections\Artist::all()->pluck('citi_id')->all();
 
         foreach ($artworks as $artwork) {
 
+            $ids = [];
+
             for ($i = 0; $i < rand(2,8); $i++) {
-                $artwork->artists()->attach($artistIds[array_rand($artistIds)]);
+
+                $id = $artistsIds[array_rand($artistsIds)];
+
+                if (!in_array($id, $ids)) {
+                    $artwork->artists()->attach($id);
+                    $ids[] = $id;
+                }
+                
             }
 
         }

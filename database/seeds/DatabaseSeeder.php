@@ -15,6 +15,7 @@ use App\Collections\Sound;
 use App\Collections\Text;
 use App\Collections\Image;
 use App\Collections\Category;
+use App\Collections\Exhibition;
 
 class DatabaseSeeder extends Seeder
 {
@@ -35,12 +36,16 @@ class DatabaseSeeder extends Seeder
         $this->call(ObjectTypesTableSeeder::class);
         $this->call(CategoriesTableSeeder::class);
         $this->call(GalleriesTableSeeder::class);
+        $this->call(GalleryCategoriesTableSeeder::class);
         $this->call(ArtworksTableSeeder::class);
         $this->call(ArtistArtworksTableSeeder::class);
+        $this->call(ArtworkCopyrightRepresentativesTableSeeder::class);
         $this->call(ArtworkCategoriesTableSeeder::class);
-        $this->call(ArtworkGalleriesTableSeeder::class);
+        $this->call(ArtworkCommitteesTableSeeder::class);
+        $this->call(ArtworkTermsTableSeeder::class);
         $this->call(ArtworkDatesTableSeeder::class);
         $this->call(ArtworkCataloguesTableSeeder::class);
+        $this->call(ArtworkArtworksTableSeeder::class);
         $this->call(ThemesTableSeeder::class);
         $this->call(LinksTableSeeder::class);
         $this->call(LinkCategoriesTableSeeder::class);
@@ -51,6 +56,8 @@ class DatabaseSeeder extends Seeder
         $this->call(TextsTableSeeder::class);
         $this->call(TextCategoriesTableSeeder::class);
         $this->call(ImagesTableSeeder::class);
+        $this->call(ImageCategoriesTableSeeder::class);
+        $this->call(ExhibitionsTableSeeder::class);
 
     }
 
@@ -58,6 +65,7 @@ class DatabaseSeeder extends Seeder
 
         DB::statement('SET FOREIGN_KEY_CHECKS=0');
 
+        Exhibition::truncate();
         Image::truncate();
         Text::truncate();
         Video::truncate();

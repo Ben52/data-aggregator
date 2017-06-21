@@ -181,8 +181,8 @@ Route::group(['prefix' => 'v1'], function()
 
     /**
      * @SWG\Get(
-     *     path="/api/v1/artworks/{id}/galleries",
-     *     summary="The galleries for a given artwork",
+     *     path="/api/v1/artworks/{id}/copyrightRepresentatives",
+     *     summary="The copyright representatives for a given artwork",
      *     tags={"artworks"},
      *     produces={"application/json"},
      *     @SWG\Parameter(ref="#/parameters/id"),
@@ -190,7 +190,7 @@ Route::group(['prefix' => 'v1'], function()
      *         response=200,
      *         description="Successful operation",
      *         @SWG\Schema(
-     *             @SWG\Items(ref="#/definitions/Gallery")
+     *             @SWG\Items(ref="#/definitions/CopyrightRepresentative")
      *         ),
      *     ),
 	 * 	   @SWG\Response(
@@ -200,9 +200,10 @@ Route::group(['prefix' => 'v1'], function()
 	 * 	   ),
      * )
      */
-    Route::any('artworks/{artwork}/galleries', 'ApiController@respondMethodNotAllowed');
-    Route::get('artworks/{artwork}/galleries', 'GalleriesController@index');
+    Route::any('artworks/{artwork}/copyrightRepresentatives', 'ApiController@respondMethodNotAllowed');
+    Route::get('artworks/{artwork}/copyrightRepresentatives', 'CopyrightRepresentativesController@index');
 
+    
     /**
      * @SWG\Get(
      *     path="/api/v1/artworks/{id}/categories",
@@ -227,6 +228,84 @@ Route::group(['prefix' => 'v1'], function()
      */
     Route::any('artworks/{artwork}/categories', 'ApiController@respondMethodNotAllowed');
     Route::get('artworks/{artwork}/categories', 'CategoriesController@index');
+
+
+    /**
+     * @SWG\Get(
+     *     path="/api/v1/artworks/{setId}/parts",
+     *     summary="A list of all parts for a given artwork",
+     *     tags={"artworks"},
+     *     produces={"application/json"},
+     *     @SWG\Parameter(ref="#/parameters/id"),
+     *     @SWG\Response(
+     *         response=200,
+     *         description="Successful operation",
+     *         @SWG\Schema(
+     *             type="array",
+     *             @SWG\Items(ref="#/definitions/Artwork")
+     *         ),
+     *     ),
+	 * 	   @SWG\Response(
+	 * 		   response="default",
+	 * 		   description="error",
+	 * 		   @SWG\Schema(ref="#/definitions/Error"),
+	 * 	   ),
+     * )
+     */
+    Route::any('artworks/{setId}/parts', 'ApiController@respondMethodNotAllowed');
+    Route::get('artworks/{setId}/parts', 'ArtworksController@index');
+
+
+    /**
+     * @SWG\Get(
+     *     path="/api/v1/artworks/{partId}/sets",
+     *     summary="A list of all sets for a given artwork",
+     *     tags={"artworks"},
+     *     produces={"application/json"},
+     *     @SWG\Parameter(ref="#/parameters/id"),
+     *     @SWG\Response(
+     *         response=200,
+     *         description="Successful operation",
+     *         @SWG\Schema(
+     *             type="array",
+     *             @SWG\Items(ref="#/definitions/Artwork")
+     *         ),
+     *     ),
+	 * 	   @SWG\Response(
+	 * 		   response="default",
+	 * 		   description="error",
+	 * 		   @SWG\Schema(ref="#/definitions/Error"),
+	 * 	   ),
+     * )
+     */
+    Route::any('artworks/{partId}/sets', 'ApiController@respondMethodNotAllowed');
+    Route::get('artworks/{partId}/sets', 'ArtworksController@index');
+
+
+    /**
+     * @SWG\Get(
+     *     path="/api/v1/artworks/{partId}/images",
+     *     summary="A list of all images for a given artwork",
+     *     tags={"artworks"},
+     *     produces={"application/json"},
+     *     @SWG\Parameter(ref="#/parameters/id"),
+     *     @SWG\Response(
+     *         response=200,
+     *         description="Successful operation",
+     *         @SWG\Schema(
+     *             type="array",
+     *             @SWG\Items(ref="#/definitions/Image")
+     *         ),
+     *     ),
+	 * 	   @SWG\Response(
+	 * 		   response="default",
+	 * 		   description="error",
+	 * 		   @SWG\Schema(ref="#/definitions/Error"),
+	 * 	   ),
+     * )
+     */
+    Route::any('artworks/{partId}/images', 'ApiController@respondMethodNotAllowed');
+    Route::get('artworks/{partId}/images', 'ImagesController@index');
 
 
     /**
@@ -591,5 +670,360 @@ Route::group(['prefix' => 'v1'], function()
      */
     Route::any('galleries/{gallery}', 'ApiController@respondMethodNotAllowed');
     Route::get('galleries/{gallery}', 'GalleriesController@show');
+
+    /**
+     * @SWG\Get(
+     *     path="/api/v1/exhibitions?ids={ids}&limit={limit}&page={page}",
+     *     summary="A list of all exhibitions sorted by last updated date in descending order",
+     *     tags={"exhibitions"},
+     *     produces={"application/json"},
+     *     @SWG\Parameter(ref="#/parameters/ids"),
+     *     @SWG\Parameter(ref="#/parameters/limit"),
+     *     @SWG\Parameter(ref="#/parameters/page"),
+     *     @SWG\Response(
+     *         response=200,
+     *         description="Successful operation",
+     *         @SWG\Schema(
+     *             type="array",
+     *             @SWG\Items(ref="#/definitions/Exhibition")
+     *         ),
+     *     ),
+	 * 	   @SWG\Response(
+	 * 		   response="default",
+	 * 		   description="error",
+	 * 		   @SWG\Schema(ref="#/definitions/Error"),
+	 * 	   ),
+     * )
+     */
+
+    Route::any('exhibitions', 'ApiController@respondMethodNotAllowed');
+    Route::get('exhibitions', 'ExhibitionsController@index');
+
+    /**
+     * @SWG\Get(
+     *     path="/api/v1/exhibitions/{id}",
+     *     summary="A single exhibition by the given identifier",
+     *     tags={"exhibitions"},
+     *     produces={"application/json"},
+     *     @SWG\Parameter(ref="#/parameters/id"),
+     *     @SWG\Response(
+     *         response=200,
+     *         description="Successful operation",
+     *         @SWG\Schema(
+     *             @SWG\Items(ref="#/definitions/Exhibition")
+     *         ),
+     *     ),
+	 * 	   @SWG\Response(
+	 * 		   response="default",
+	 * 		   description="error",
+	 * 		   @SWG\Schema(ref="#/definitions/Error"),
+	 * 	   ),
+     * )
+     */
+    Route::any('exhibitions/{exhibition}', 'ApiController@respondMethodNotAllowed');
+    Route::get('exhibitions/{exhibition}', 'ExhibitionsController@show');
+
+    /**
+     * @SWG\Get(
+     *     path="/api/v1/exhibitions/{id}/artworks",
+     *     summary="The artworks for a given exhibition",
+     *     tags={"exhibitions"},
+     *     produces={"application/json"},
+     *     @SWG\Parameter(ref="#/parameters/id"),
+     *     @SWG\Response(
+     *         response=200,
+     *         description="Successful operation",
+     *         @SWG\Schema(
+     *             @SWG\Items(ref="#/definitions/Artwork")
+     *         ),
+     *     ),
+	 * 	   @SWG\Response(
+	 * 		   response="default",
+	 * 		   description="error",
+	 * 		   @SWG\Schema(ref="#/definitions/Error"),
+	 * 	   ),
+     * )
+     */
+    Route::any('exhibitions/{exhibition}/artworks', 'ApiController@respondMethodNotAllowed');
+    Route::get('exhibitions/{exhibition}/artworks', 'ArtworksController@index');
+
+    /**
+     * @SWG\Get(
+     *     path="/api/v1/exhibitions/{id}/venues",
+     *     summary="The venues for a given exhibition",
+     *     tags={"exhibitions"},
+     *     produces={"application/json"},
+     *     @SWG\Parameter(ref="#/parameters/id"),
+     *     @SWG\Response(
+     *         response=200,
+     *         description="Successful operation",
+     *         @SWG\Schema(
+     *             @SWG\Items(ref="#/definitions/Agent")
+     *         ),
+     *     ),
+	 * 	   @SWG\Response(
+	 * 		   response="default",
+	 * 		   description="error",
+	 * 		   @SWG\Schema(ref="#/definitions/Error"),
+	 * 	   ),
+     * )
+     */
+    Route::any('exhibitions/{exhibition}/venues', 'ApiController@respondMethodNotAllowed');
+    Route::get('exhibitions/{exhibition}/venues', 'AgentsController@index');
+
+    /**
+     * @SWG\Get(
+     *     path="/api/v1/images?ids={ids}&limit={limit}&page={page}",
+     *     summary="A list of all images sorted by last updated date in descending order",
+     *     tags={"images"},
+     *     produces={"application/json"},
+     *     @SWG\Parameter(ref="#/parameters/ids"),
+     *     @SWG\Parameter(ref="#/parameters/limit"),
+     *     @SWG\Parameter(ref="#/parameters/page"),
+     *     @SWG\Response(
+     *         response=200,
+     *         description="Successful operation",
+     *         @SWG\Schema(
+     *             type="array",
+     *             @SWG\Items(ref="#/definitions/Image")
+     *         ),
+     *     ),
+	 * 	   @SWG\Response(
+	 * 		   response="default",
+	 * 		   description="error",
+	 * 		   @SWG\Schema(ref="#/definitions/Error"),
+	 * 	   ),
+     * )
+     */
+    Route::any('images', 'ApiController@respondMethodNotAllowed');
+    Route::get('images', 'ImagesController@index');
+
+    /**
+     * @SWG\Get(
+     *     path="/api/v1/images/{id}",
+     *     summary="A single image by the given identifier",
+     *     tags={"images"},
+     *     produces={"application/json"},
+     *     @SWG\Parameter(ref="#/parameters/id"),
+     *     @SWG\Response(
+     *         response=200,
+     *         description="Successful operation",
+     *         @SWG\Schema(
+     *             @SWG\Items(ref="#/definitions/Image")
+     *         ),
+     *     ),
+	 * 	   @SWG\Response(
+	 * 		   response="default",
+	 * 		   description="error",
+	 * 		   @SWG\Schema(ref="#/definitions/Error"),
+	 * 	   ),
+     * )
+     */
+    Route::any('images/{image}', 'ApiController@respondMethodNotAllowed');
+    Route::get('images/{image}', 'ImagesController@show');
+
+    /**
+     * @SWG\Get(
+     *     path="/api/v1/videos?ids={ids}&limit={limit}&page={page}",
+     *     summary="A list of all videos sorted by last updated date in descending order",
+     *     tags={"videos"},
+     *     produces={"application/json"},
+     *     @SWG\Parameter(ref="#/parameters/ids"),
+     *     @SWG\Parameter(ref="#/parameters/limit"),
+     *     @SWG\Parameter(ref="#/parameters/page"),
+     *     @SWG\Response(
+     *         response=200,
+     *         description="Successful operation",
+     *         @SWG\Schema(
+     *             type="array",
+     *             @SWG\Items(ref="#/definitions/Video")
+     *         ),
+     *     ),
+	 * 	   @SWG\Response(
+	 * 		   response="default",
+	 * 		   description="error",
+	 * 		   @SWG\Schema(ref="#/definitions/Error"),
+	 * 	   ),
+     * )
+     */
+    Route::any('videos', 'ApiController@respondMethodNotAllowed');
+    Route::get('videos', 'VideosController@index');
+
+    /**
+     * @SWG\Get(
+     *     path="/api/v1/videos/{id}",
+     *     summary="A single video by the given identifier",
+     *     tags={"videos"},
+     *     produces={"application/json"},
+     *     @SWG\Parameter(ref="#/parameters/id"),
+     *     @SWG\Response(
+     *         response=200,
+     *         description="Successful operation",
+     *         @SWG\Schema(
+     *             @SWG\Items(ref="#/definitions/Video")
+     *         ),
+     *     ),
+	 * 	   @SWG\Response(
+	 * 		   response="default",
+	 * 		   description="error",
+	 * 		   @SWG\Schema(ref="#/definitions/Error"),
+	 * 	   ),
+     * )
+     */
+    Route::any('videos/{video}', 'ApiController@respondMethodNotAllowed');
+    Route::get('videos/{video}', 'VideosController@show');
+
+    /**
+     * @SWG\Get(
+     *     path="/api/v1/links?ids={ids}&limit={limit}&page={page}",
+     *     summary="A list of all links sorted by last updated date in descending order",
+     *     tags={"links"},
+     *     produces={"application/json"},
+     *     @SWG\Parameter(ref="#/parameters/ids"),
+     *     @SWG\Parameter(ref="#/parameters/limit"),
+     *     @SWG\Parameter(ref="#/parameters/page"),
+     *     @SWG\Response(
+     *         response=200,
+     *         description="Successful operation",
+     *         @SWG\Schema(
+     *             type="array",
+     *             @SWG\Items(ref="#/definitions/Link")
+     *         ),
+     *     ),
+	 * 	   @SWG\Response(
+	 * 		   response="default",
+	 * 		   description="error",
+	 * 		   @SWG\Schema(ref="#/definitions/Error"),
+	 * 	   ),
+     * )
+     */
+    Route::any('links', 'ApiController@respondMethodNotAllowed');
+    Route::get('links', 'LinksController@index');
+
+    /**
+     * @SWG\Get(
+     *     path="/api/v1/links/{id}",
+     *     summary="A single link by the given identifier",
+     *     tags={"links"},
+     *     produces={"application/json"},
+     *     @SWG\Parameter(ref="#/parameters/id"),
+     *     @SWG\Response(
+     *         response=200,
+     *         description="Successful operation",
+     *         @SWG\Schema(
+     *             @SWG\Items(ref="#/definitions/Link")
+     *         ),
+     *     ),
+	 * 	   @SWG\Response(
+	 * 		   response="default",
+	 * 		   description="error",
+	 * 		   @SWG\Schema(ref="#/definitions/Error"),
+	 * 	   ),
+     * )
+     */
+    Route::any('links/{link}', 'ApiController@respondMethodNotAllowed');
+    Route::get('links/{link}', 'LinksController@show');
+
+    /**
+     * @SWG\Get(
+     *     path="/api/v1/sounds?ids={ids}&limit={limit}&page={page}",
+     *     summary="A list of all sounds sorted by last updated date in descending order",
+     *     tags={"sounds"},
+     *     produces={"application/json"},
+     *     @SWG\Parameter(ref="#/parameters/ids"),
+     *     @SWG\Parameter(ref="#/parameters/limit"),
+     *     @SWG\Parameter(ref="#/parameters/page"),
+     *     @SWG\Response(
+     *         response=200,
+     *         description="Successful operation",
+     *         @SWG\Schema(
+     *             type="array",
+     *             @SWG\Items(ref="#/definitions/Sound")
+     *         ),
+     *     ),
+	 * 	   @SWG\Response(
+	 * 		   response="default",
+	 * 		   description="error",
+	 * 		   @SWG\Schema(ref="#/definitions/Error"),
+	 * 	   ),
+     * )
+     */
+    Route::any('sounds', 'ApiController@respondMethodNotAllowed');
+    Route::get('sounds', 'SoundsController@index');
+
+    /**
+     * @SWG\Get(
+     *     path="/api/v1/sounds/{id}",
+     *     summary="A single sound by the given identifier",
+     *     tags={"sounds"},
+     *     produces={"application/json"},
+     *     @SWG\Parameter(ref="#/parameters/id"),
+     *     @SWG\Response(
+     *         response=200,
+     *         description="Successful operation",
+     *         @SWG\Schema(
+     *             @SWG\Items(ref="#/definitions/Sound")
+     *         ),
+     *     ),
+	 * 	   @SWG\Response(
+	 * 		   response="default",
+	 * 		   description="error",
+	 * 		   @SWG\Schema(ref="#/definitions/Error"),
+	 * 	   ),
+     * )
+     */
+    Route::any('sounds/{sound}', 'ApiController@respondMethodNotAllowed');
+    Route::get('sounds/{sound}', 'SoundsController@show');
+
+    /**
+     * @SWG\Get(
+     *     path="/api/v1/texts?ids={ids}&limit={limit}&page={page}",
+     *     summary="A list of all texts sorted by last updated date in descending order",
+     *     tags={"texts"},
+     *     produces={"application/json"},
+     *     @SWG\Parameter(ref="#/parameters/ids"),
+     *     @SWG\Parameter(ref="#/parameters/limit"),
+     *     @SWG\Parameter(ref="#/parameters/page"),
+     *     @SWG\Response(
+     *         response=200,
+     *         description="Successful operation",
+     *         @SWG\Schema(
+     *             type="array",
+     *             @SWG\Items(ref="#/definitions/Text")
+     *         ),
+     *     ),
+	 * 	   @SWG\Response(
+	 * 		   response="default",
+	 * 		   description="error",
+	 * 		   @SWG\Schema(ref="#/definitions/Error"),
+	 * 	   ),
+     * )
+     */
+    Route::any('texts', 'ApiController@respondMethodNotAllowed');
+    Route::get('texts', 'TextsController@index');
+
+    /**
+     * @SWG\Get(
+     *     path="/api/v1/texts/{id}",
+     *     summary="A single text by the given identifier",
+     *     tags={"texts"},
+     *     produces={"application/json"},
+     *     @SWG\Parameter(ref="#/parameters/id"),
+     *     @SWG\Response(
+     *         response=200,
+     *         description="Successful operation",
+     *         @SWG\Schema(
+     *             @SWG\Items(ref="#/definitions/Text")
+     *         ),
+     *     ),
+	 * 	   @SWG\Response(
+	 * 		   response="default",
+	 * 		   description="error",
+	 * 		   @SWG\Schema(ref="#/definitions/Error"),
+	 * 	   ),
+     * )
+     */
+    Route::any('texts/{text}', 'ApiController@respondMethodNotAllowed');
+    Route::get('texts/{text}', 'TextsController@show');
 
 });

@@ -8,8 +8,14 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 use Faker\Factory as Faker;
 
+use Tests\Helpers\Factory;
+
+use App\Collections\AgentType;
+
 abstract class ApiTestCase extends TestCase
 {
+
+    use Factory;
 
     protected $faker;
     
@@ -26,6 +32,14 @@ abstract class ApiTestCase extends TestCase
 
         parent::setUp();
         \Artisan::call('migrate');
+
+        if (get_class($this) != 'Tests\Unit\AgentTypeTest')
+        {
+
+            $this->make(AgentType::class, ['title' => 'Artist']);
+
+        }
+
     }
 
     protected function assertArrayHasKeys($array = [], $keys = [])
@@ -107,12 +121,12 @@ abstract class ApiTestCase extends TestCase
 
     }
 
-    public function it_404s($class, $endpoint)
+    public function it_404s($class, $endpoint, $useUuid = false)
     {
 
         $this->make($class);
         
-        $response = $this->getJson('api/v1/' .$endpoint .'/' .$this->faker->unique()->randomNumber(5));
+        $response = $this->getJson('api/v1/' .$endpoint .'/' .$useUuid ? $this->faker->unique()->uuid : $this->faker->unique()->randomNumber(5));
 
         $response->assertStatus(404);
 

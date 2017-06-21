@@ -8,13 +8,9 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 use App\Collections\Link;
 
-use Tests\Helpers\Factory;
-
 class LinkTest extends ApiTestCase
 {
 
-    use Factory;
-    
     /** @test */
     public function it_fetches_all_links()
     {
@@ -60,7 +56,7 @@ class LinkTest extends ApiTestCase
     public function it_404s_if_not_found()
     {
 
-        $this->it_404s(Link::class, 'links');
+        $this->it_404s(Link::class, 'links', true);
 
     }
 

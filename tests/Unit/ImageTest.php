@@ -8,12 +8,8 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 use App\Collections\Image;
 
-use Tests\Helpers\Factory;
-
 class ImageTest extends ApiTestCase
 {
-
-    use Factory;
 
     /** @test */
     public function it_fetches_all_images()
@@ -106,7 +102,7 @@ class ImageTest extends ApiTestCase
     public function it_404s_if_not_found()
     {
 
-        $this->it_404s(Image::class, 'images');
+        $this->it_404s(Image::class, 'images', true);
 
     }
 

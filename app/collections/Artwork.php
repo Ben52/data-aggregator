@@ -9,7 +9,7 @@ class Artwork extends Model
 
     public $incrementing = false;
     protected $primaryKey = 'citi_id';
-    protected $dates = ['api_created_at', 'api_modified_at', 'api_indexed_at'];
+    protected $dates = ['api_created_at', 'api_modified_at', 'api_indexed_at', 'citi_created_at', 'citi_modified_at'];
 
     /**
      * The attributes that are mass assignable.
@@ -22,6 +22,13 @@ class Artwork extends Model
     {
 
         return $this->belongsToMany('App\Collections\Artist', 'agent_artwork', 'artwork_citi_id', 'agent_citi_id');
+
+    }
+
+    public function copyrightRepresentatives()
+    {
+
+        return $this->belongsToMany('App\Collections\CopyrightRepresentative', 'agent_artwork', 'artwork_citi_id', 'agent_citi_id');
 
     }
 
@@ -53,6 +60,20 @@ class Artwork extends Model
 
     }
 
+    public function committees()
+    {
+
+        return $this->hasMany('App\Collections\ArtworkCommittee');
+
+    }
+
+    public function terms()
+    {
+
+        return $this->hasMany('App\Collections\ArtworkTerm');
+
+    }
+
     public function catalogues()
     {
 
@@ -60,10 +81,32 @@ class Artwork extends Model
 
     }
 
-    public function galleries()
+    public function gallery()
     {
 
-        return $this->belongsToMany('App\Collections\Gallery');
+        return $this->belongsTo('App\Collections\Gallery');
 
     }
+
+    public function parts()
+    {
+
+        return $this->belongsToMany('App\Collections\Artwork', 'artwork_artwork', 'set_citi_id', 'part_citi_id');
+
+    }
+
+    public function sets()
+    {
+
+        return $this->belongsToMany('App\Collections\Artwork', 'artwork_artwork', 'part_citi_id', 'set_citi_id');
+
+    }
+
+    public function images()
+    {
+
+        return $this->belongsToMany('App\Collections\Image');
+
+    }
+
 }

@@ -8,13 +8,9 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 use App\Collections\Video;
 
-use Tests\Helpers\Factory;
-
 class VideoTest extends ApiTestCase
 {
 
-    use Factory;
-    
     /** @test */
     public function it_fetches_all_videos()
     {
@@ -60,7 +56,7 @@ class VideoTest extends ApiTestCase
     public function it_404s_if_not_found()
     {
 
-        $this->it_404s(Video::class, 'videos');
+        $this->it_404s(Video::class, 'videos', true);
 
     }
 
