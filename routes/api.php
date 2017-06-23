@@ -1026,4 +1026,106 @@ Route::group(['prefix' => 'v1'], function()
     Route::any('texts/{text}', 'ApiController@respondMethodNotAllowed');
     Route::get('texts/{text}', 'TextsController@show');
 
+    /**
+     * @SWG\Get(
+     *     path="/api/v1/shop-categories?ids={ids}&limit={limit}&page={page}",
+     *     summary="A list of all shop categories sorted by last updated date in descending order",
+     *     tags={"shopCategories"},
+     *     produces={"application/json"},
+     *     @SWG\Parameter(ref="#/parameters/ids"),
+     *     @SWG\Parameter(ref="#/parameters/limit"),
+     *     @SWG\Parameter(ref="#/parameters/page"),
+     *     @SWG\Response(
+     *         response=200,
+     *         description="Successful operation",
+     *         @SWG\Schema(
+     *             type="array",
+     *             @SWG\Items(ref="#/definitions/ShopCategory")
+     *         ),
+     *     ),
+	 * 	   @SWG\Response(
+	 * 		   response="default",
+	 * 		   description="error",
+	 * 		   @SWG\Schema(ref="#/definitions/Error"),
+	 * 	   ),
+     * )
+     */
+    Route::any('shop-categories', 'ApiController@respondMethodNotAllowed');
+    Route::get('shop-categories', 'ShopCategoriesController@index');
+
+    /**
+     * @SWG\Get(
+     *     path="/api/v1/shop-categories/{id}",
+     *     summary="A single shop category by the given identifier",
+     *     tags={"shopCategories"},
+     *     produces={"application/json"},
+     *     @SWG\Parameter(ref="#/parameters/id"),
+     *     @SWG\Response(
+     *         response=200,
+     *         description="Successful operation",
+     *         @SWG\Schema(
+     *             @SWG\Items(ref="#/definitions/ShopCategory")
+     *         ),
+     *     ),
+	 * 	   @SWG\Response(
+	 * 		   response="default",
+	 * 		   description="error",
+	 * 		   @SWG\Schema(ref="#/definitions/Error"),
+	 * 	   ),
+     * )
+     */
+    Route::any('shop-categories/{shopCategory}', 'ApiController@respondMethodNotAllowed');
+    Route::get('shop-categories/{shopCategory}', 'ShopCategoriesController@show');
+
+    /**
+     * @SWG\Get(
+     *     path="/api/v1/products?ids={ids}&limit={limit}&page={page}",
+     *     summary="A list of all products sorted by last updated date in descending order",
+     *     tags={"products"},
+     *     produces={"application/json"},
+     *     @SWG\Parameter(ref="#/parameters/ids"),
+     *     @SWG\Parameter(ref="#/parameters/limit"),
+     *     @SWG\Parameter(ref="#/parameters/page"),
+     *     @SWG\Response(
+     *         response=200,
+     *         description="Successful operation",
+     *         @SWG\Schema(
+     *             type="array",
+     *             @SWG\Items(ref="#/definitions/Product")
+     *         ),
+     *     ),
+	 * 	   @SWG\Response(
+	 * 		   response="default",
+	 * 		   description="error",
+	 * 		   @SWG\Schema(ref="#/definitions/Error"),
+	 * 	   ),
+     * )
+     */
+    Route::any('products', 'ApiController@respondMethodNotAllowed');
+    Route::get('products', 'ProductsController@index');
+
+    /**
+     * @SWG\Get(
+     *     path="/api/v1/products/{id}",
+     *     summary="A single product by the given identifier",
+     *     tags={"products"},
+     *     produces={"application/json"},
+     *     @SWG\Parameter(ref="#/parameters/id"),
+     *     @SWG\Response(
+     *         response=200,
+     *         description="Successful operation",
+     *         @SWG\Schema(
+     *             @SWG\Items(ref="#/definitions/Product")
+     *         ),
+     *     ),
+	 * 	   @SWG\Response(
+	 * 		   response="default",
+	 * 		   description="error",
+	 * 		   @SWG\Schema(ref="#/definitions/Error"),
+	 * 	   ),
+     * )
+     */
+    Route::any('products/{product}', 'ApiController@respondMethodNotAllowed');
+    Route::get('products/{product}', 'ProductsController@show');
+
 });
