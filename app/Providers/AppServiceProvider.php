@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Schema;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -66,7 +67,8 @@ class AppServiceProvider extends ServiceProvider
             ], $status);
         });
 
-        
+	Schema::defaultStringLength(191);        
+
     }
 
     /**
